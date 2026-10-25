@@ -6,7 +6,7 @@ Cast the d20, then start immediately, use a matching TickTick card, veto, or opt
 
 ## Current state
 
-First app on `claude/first-app`, awaiting review and merge. The public GitHub Pages destination is approved in principle; it is **not deployed yet**. The source repository is private pending a separate source-visibility decision if Pages requires it. Desktop browser verification passed; physical iPad Safari verification remains a release check.
+First app on `claude/first-app`, awaiting review and merge. The public GitHub Pages destination is approved in principle; it is **not deployed yet**. The source repository is private. GitHub rejected Pages setup for this private repository on the current plan (HTTP 422, checked 2026-10-25); publishing here requires approval to make the source public. Desktop browser verification passed; physical iPad Safari verification remains a release check.
 
 ## Run on this computer
 

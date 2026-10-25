@@ -37,6 +37,8 @@ Start the preview server. Use a locally installed Playwright package and browser
 
 The harness uses isolated browser contexts, fixture API responses and controlled random values. These test controls are not part of the app or the packaged site. Browser tooling is an optional development dependency; the app has no runtime package dependencies.
 
+GitHub Pages setup was attempted without deploying. GitHub returned HTTP 422: the current plan does not support Pages for this private repository. No visibility was changed and no app was deployed. The public-source decision is therefore required for the chosen Pages route.
+
 ## Release checks still needed
 
 - GitHub Pages deployment and public URL readback after the approved merge/visibility decision.

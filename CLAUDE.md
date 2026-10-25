@@ -9,7 +9,7 @@ The source PDF is `C:/Users/Chris/Downloads/Practical_Non_Determinism_Modern_Pla
 - First app worktree: `C:/Users/Chris/claude/_wt/practical-non-determinism-first-app`, branch `claude/first-app`.
 - Eco registration worktree: `C:/Users/Chris/claude/_wt/eco-practical-non-determinism`, branch `claude/practical-non-determinism` in automation.
 - Claude Queue card: `6ade46338f08640fc38da96d`, project `6a5061b78f0822486929571e`. Read current card/column before updating; never complete it or move it to Done.
-- Chris chose a public GitHub Pages app. Source starts private; do not infer public-source approval if Pages requires changing visibility. Merge and deployment remain pending the explicit branch decision.
+- Chris chose a public GitHub Pages app. Source is private. GitHub rejected private-repository Pages setup with HTTP 422 on 2026-10-25; source-visibility approval is needed for this route. Merge and deployment remain pending the explicit branch decision.
 - No paid services, backend, or cross-device history sync required. Use the existing TickTick connection locally; never commit a token or embed one into a deployment.
 
 ## Product invariants
