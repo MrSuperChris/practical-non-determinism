@@ -1,5 +1,9 @@
 # First-app verification
 
+## Illustrated UI follow-up — 2026-10-25
+
+The visual pass preserves the game engine, storage and TickTick reader. The full browser workflow passed again with the new artwork, including live read-only TickTick and offline installation. The tablet check now explicitly asserts the two-to-one columns do not overlap after the expansion animation settles. Desktop, tablet portrait and phone screenshots were inspected. The new raster image, vector module and stylesheet are in both the package allowlist and service-worker shell; cache version is 0.2.0. No new credentials or real task details are embedded in the art or the preview image.
+
 Verified 2026-10-25 on Windows with Node and headless Microsoft Edge. This is browser and local integration evidence, not a claim that a public deployment or physical iPad test has happened.
 
 ## Automated rules: 12 passing tests

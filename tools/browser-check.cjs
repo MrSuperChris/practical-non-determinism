@@ -61,10 +61,12 @@ const output=path.resolve(__dirname,'../browser-results');
   await page.reload();await page.locator('.receipt').waitFor();
   game=await page.evaluate(async()=>{const {read}=await import('./src/storage.mjs');return read('game');});assert.equal(game.history.length,2);
   await page.locator('[data-act=next]').click();await page.locator('[data-act=roll]').click();
+  await page.locator('.first-result').waitFor();
   await page.waitForFunction(()=>document.getAnimations().every(a=>a.playState==='finished'));
   for(const viewport of [{width:1024,height:768},{width:768,height:1024},{width:390,height:844}]){
    await page.setViewportSize(viewport);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-   await page.screenshot({path:path.join(output,`discover-${viewport.width}.png`),fullPage:true});
+   if(viewport.width>700)assert(await page.evaluate(()=>{const a=document.querySelector('.first-result').getBoundingClientRect(),b=document.querySelector('.mode-aside').getBoundingClientRect();return a.right<b.left&&Math.abs(a.width/b.width-2)<.05;}));
+   await page.screenshot({path:path.join(output,`discover-${viewport.width}.png`),fullPage:true,animations:'disabled'});
   }
   await page.locator('[data-act=settings]').click();await page.locator('#settings-dialog').waitFor();
   assert.match(await page.locator('#settings-dialog').innerText(),/Connected through Eco/);

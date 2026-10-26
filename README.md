@@ -2,6 +2,10 @@
 
 A personal decision game for natural transitions. The die chooses a lane; you choose the activity. A separate app from What Now?, based on Chris's two-page player aid.
 
+![Illustrated cast table](docs/illustrated-preview.png)
+
+The illustrated UI adds a maker-and-landscape backdrop, 16 category emblems, six approach symbols, a framed dice ritual, and a small landscape inside the quiet timer. Artwork provenance and the generation prompt are in [docs/ARTWORK.md](docs/ARTWORK.md).
+
 Cast the d20, then start immediately, use a matching TickTick card, veto, or optionally cast an approach. Give the activity a little time. A quiet pool fills instead of displaying a numerical countdown. Done and the fifteen-minute deadline both record the session once.
 
 ## Current state

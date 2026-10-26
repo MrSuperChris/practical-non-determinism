@@ -6,6 +6,8 @@ The source PDF is `C:/Users/Chris/Downloads/Practical_Non_Determinism_Modern_Pla
 
 ## Current handoff
 
+- Illustrated UI follow-up: 16 category emblems and six approach emblems in `src/art.mjs`, original dice in an orbital frame, generated decorative panorama in `assets/possibilities.png`, and additional presentation in `illustrated.css`. See `docs/ARTWORK.md` for prompt/provenance. Package and shell cache include all new assets; version 0.2.0. User authorized pushing this visual pass to GitHub; merge/public-source decisions remain separate.
+
 - First app worktree: `C:/Users/Chris/claude/_wt/practical-non-determinism-first-app`, branch `claude/first-app`.
 - Eco registration worktree: `C:/Users/Chris/claude/_wt/eco-practical-non-determinism`, branch `claude/practical-non-determinism` in automation.
 - Claude Queue card: `6ade46338f08640fc38da96d`, project `6a5061b78f0822486929571e`. Read current card/column before updating; never complete it or move it to Done.
