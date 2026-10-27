@@ -14,6 +14,12 @@ The source PDF is `C:/Users/Chris/Downloads/Practical_Non_Determinism_Modern_Pla
 - Public source and GitHub Pages are live: https://mrsuperchris.github.io/practical-non-determinism/. Publish app run 40425918253 succeeded on 2026-10-26 (Chicago), deploying 98cc71be352a40724f99b5cda58d86ef30a73ce0. All 18 published files matched Git release blobs over HTTPS; live browser rendering was inspected. Physical iPad acceptance remains; the card stays open in Needs Review.
 - No paid services, backend, or cross-device history sync required. Use the existing TickTick connection locally; never commit a token or embed one into a deployment.
 
+## Development and use
+
+Chris develops and reviews on this Windows computer; the iPad is the intended everyday device (clarified 2026-10-26). Port 8897 is a local development preview, not the published app. The iPad uses GitHub Pages. Local changes require a separate approved merge and Pages deployment to reach that URL. Preview and hosted storage are separate; never clear either to refresh the app.
+
+Guidance is always visible and belongs to the current stage: invitation explains veto/reroll; Try explains Done, continuing and leaving; handled confirms the saved session and the next natural transition. Do not reintroduce earlier-stage rules during Try.
+
 ## Product invariants
 
 Start or veto after the first cast. Main result and task starts occupy two thirds; the optional approach occupies one third at tablet/desktop widths. A TickTick start clears the approach; the task details appear during Try. Free choice starts keep the approach. TickTick integration stays read-only. Counts, timer and credits persist per device. Deadline completion must be idempotent across reload/background/tabs. A relaxing visual timer replaces digits.

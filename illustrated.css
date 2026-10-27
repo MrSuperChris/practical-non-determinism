@@ -64,8 +64,8 @@ body{background-color:#ded5c4;background-image:radial-gradient(ellipse at 50% 0,
 #app .task-start>.task-copy{flex:1;min-width:0}
 #app .task-start strong{font:500 16px/1.3 Georgia,serif;overflow-wrap:anywhere}
 #app .task-start small{font-size:11px}
-#app .rules summary{color:#554162;font-size:17px}
-#app .rules summary:after{content:'✦';float:right;color:#a78d58;font-size:14px}
+#app .rules h3{color:#554162;font-size:17px}
+#app .rules h3:after{content:'✦';float:right;color:#a78d58;font-size:14px}
 #app .doing-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);align-items:start}
 #app .timer-area{position:relative;max-width:370px;padding:20px 20px 0;isolation:isolate}
 #app .timer-area:before{content:'';position:absolute;inset:0 0 85px;z-index:-1;background:linear-gradient(#f9f4e6d9,#f9f4e688,#f9f4e6e6),url('./assets/possibilities.png') 91% 58%/auto 110%;border-radius:160px 160px 8px 8px;border:1px solid #c3b393;opacity:.9}

@@ -53,3 +53,10 @@ The [live site](https://mrsuperchris.github.io/practical-non-determinism/) retur
 - Longer-term experience: whether the pool feels restful, mode usefulness, personalized examples and credit values. These are product feedback, not passed automated tests.
 
 GitHub Actions runs the unit tests and package check on the PR. The manual Pages workflow repeats those checks before deployment and only runs from master.
+
+
+## Visible stage guidance — 2026-10-26, local review
+
+Version 0.2.1 replaces the collapsed Rules of Good Sense with visible, stage-specific guidance. Invitation retains veto and free reroll instructions; Try describes Done, continuing and leaving; handled confirms the saved result. The duplicate leave action and repeated momentum paragraph were removed from Try. Gameplay rules are unchanged.
+
+All 12 rule tests and packaging passed. Browser checks cover visible guidance across invitation, Try and handled stages, absence of earlier-stage actions during Try, and the existing task, persistence, deadline and responsive flows. Try was also inspected at 1024 and 768 pixels wide. A negative control loads the released 0.2.0 module and confirms it fails the new visible-guidance check. The service-worker cache version is bumped for the next approved publication. This change is local and on a review branch; public Pages remains version 0.2.0 until separately deployed.
