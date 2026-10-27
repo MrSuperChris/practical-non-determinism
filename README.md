@@ -12,6 +12,8 @@ Cast the d20, then start immediately, use a matching TickTick card, veto, or opt
 
 Version 0.2.0 is [live on GitHub Pages](https://mrsuperchris.github.io/practical-non-determinism/). Chris approved both PR merges, public source and publication on 2026-10-26. Deployment passed; all 18 published app files matched the released Git blobs. Desktop browser verification passed; physical iPad Safari verification remains an acceptance check.
 
+Local review (0.2.2, PR 2): the illustrated die is now the control—grab, spin and release, or tap it. Both dice support the gesture and keyboard activation. Guidance is visible and follows the current stage. These changes are in the development preview at port 8897; publication remains separate.
+
 ## Run on this computer
 
 No dependency installation is needed for the app, its unit tests, or packaging. Node.js 22 or newer.
