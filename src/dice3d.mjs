@@ -222,7 +222,9 @@ export function createDie(canvas, { sides = 20 } = {}) {
     if (reduced) { q = target; render(); return Promise.resolve(); }
     const start = q;
     const { axis, angle } = toAxisAngle(qMul(target, qConj(start))); // start -> target
-    const total = angle + 2 * Math.PI * Math.max(1, turns); // guaranteed lively, lands on target
+    // Only full extra revolutions preserve the target orientation. Drag distance
+    // supplies fractional turns; adding those would force a snap on the last frame.
+    const total = angle + 2 * Math.PI * Math.max(1, Math.round(turns));
     const dur = 620, t0 = performance.now();
     const ease = t => 1 - Math.pow(1 - t, 3);
     return new Promise(resolve => {
