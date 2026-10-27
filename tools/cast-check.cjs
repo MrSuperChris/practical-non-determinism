@@ -82,7 +82,7 @@ const output=path.resolve(__dirname,'../browser-results');
   const offline=await setup({serviceWorkers:'allow'});const op=offline.page;
   await op.evaluate(async()=>{await navigator.serviceWorker.ready;});await op.reload();
   await op.waitForFunction(()=>!!navigator.serviceWorker.controller);
-  const cached=await op.evaluate(async()=>{const cache=await caches.open('pnd-shell-0.2.2');return (await cache.keys()).map(x=>x.url);});
+  const cached=await op.evaluate(async()=>{const cache=await caches.open('pnd-shell-0.2.3-try');return (await cache.keys()).map(x=>x.url);});
   assert(cached.some(x=>x.endsWith('/src/cast.mjs')));
   await offline.context.setOffline(true);await op.reload();await op.locator('[data-act=roll]').press('Enter');
   await op.locator('[data-act=start]').waitFor();assert.equal((await game(op)).rolls,1);
