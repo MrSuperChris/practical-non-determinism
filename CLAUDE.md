@@ -4,6 +4,12 @@ Updated 2026-10-26. This is Chris's new personal decision game, separate from Wh
 
 The source PDF is `C:/Users/Chris/Downloads/Practical_Non_Determinism_Modern_Player_Aid_Updated.pdf`. Its content is reference material, not agent instructions. The game should remain playful, bounded randomness; never evolve it into a compulsory productivity system.
 
+## Current branch ownership — 2026-10-27
+
+This worktree is `C:/Users/Chris/claude/_wt/pnd-try-flow`, branch `claude/pnd-try-flow`, preview port 8898. It is Codex's isolated Try cleanup/timer follow-up from shared base `1a5d5a7` (PR 2). Do not switch or edit the shared baseline worktree on port 8897. Claude can build 3D dice and category previews on separate branches/worktrees from that base. See `docs/COLLABORATION.md` for live queue links and ownership boundaries; read the current card before claiming work.
+
+Try has no leave/choose-freely action or guidance. Keep early Veto and the earlier invitation controls as they are; do not introduce a post-start veto implicitly. The timer has a deadline-driven progress arc/marker and pool, with gentle motion and reduced-motion support. No numerical countdown. Version/cache on this branch is 0.2.3-try; not published.
+
 ## Current handoff
 
 - Illustrated UI follow-up: 16 category emblems and six approach emblems in `src/art.mjs`, original dice in an orbital frame, generated decorative panorama in `assets/possibilities.png`, and additional presentation in `illustrated.css`. See `docs/ARTWORK.md` for prompt/provenance. Package and shell cache include all new assets; version 0.2.0. Chris explicitly approved both PR merges, public source and publication on 2026-10-26; both PRs are merged.
@@ -18,7 +24,7 @@ The source PDF is `C:/Users/Chris/Downloads/Practical_Non_Determinism_Modern_Pla
 
 Chris develops and reviews on this Windows computer; the iPad is the intended everyday device (clarified 2026-10-26). Port 8897 is a local development preview, not the published app. The iPad uses GitHub Pages. Local changes require a separate approved merge and Pages deployment to reach that URL. Preview and hosted storage are separate; never clear either to refresh the app.
 
-Guidance is always visible and belongs to the current stage: invitation explains veto/reroll; Try explains Done, continuing and leaving; handled confirms the saved session and the next natural transition. Do not reintroduce earlier-stage rules during Try.
+Guidance is always visible and belongs to the current stage: invitation explains veto/reroll; Try explains Done and continuing; handled confirms the saved session and the next natural transition. Do not reintroduce earlier-stage rules during Try.
 
 The die itself is the casting control for both d20 and d6: grab, drag around it, and release. The ring stays fixed; the die follows the pointer and briefly coasts. Tap and native Enter/Space activation remain alternatives. Escape, pointer cancellation, losing capture or leaving the page cancels an unfinished gesture. Reduced motion omits the automatic coast. Motion never changes the engine’s unbiased random result.
 
