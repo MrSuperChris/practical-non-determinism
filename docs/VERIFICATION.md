@@ -41,11 +41,14 @@ Start the preview server. Use a locally installed Playwright package and browser
 
 The harness uses isolated browser contexts, fixture API responses and controlled random values. These test controls are not part of the app or the packaged site. Browser tooling is an optional development dependency; the app has no runtime package dependencies.
 
-GitHub Pages setup was attempted without deploying. GitHub returned HTTP 422: the current plan does not support Pages for this private repository. No visibility was changed and no app was deployed. The public-source decision is therefore required for the chosen Pages route.
+## Public release — 2026-10-26 (America/Chicago)
+
+Chris explicitly approved both PR merges, public source and publication. Both PRs are merged and the repository is public. [Publish app run 40425918253](https://github.com/MrSuperChris/practical-non-determinism/actions/runs/40425918253) succeeded, running the unit tests and package validation before deploying `98cc71be352a40724f99b5cda58d86ef30a73ce0`.
+
+The [live site](https://mrsuperchris.github.io/practical-non-determinism/) returned HTTP 200 for all 18 packaged app files. SHA-256 comparisons matched the Git release blobs byte-for-byte (Git blobs avoid Windows checkout line-ending differences). The live page rendered the illustrated cast screen in the in-app browser; existing local preview data was not cleared. Earlier private-repository setup returned HTTP 422; the approved public visibility change resolved that blocker.
 
 ## Release checks still needed
 
-- GitHub Pages deployment and public URL readback after the approved merge/visibility decision.
 - Physical iPad Safari: Add to Home Screen, hold/release cast, rotate tablet, connect TickTick, background beyond fifteen minutes, reopen and verify one completion.
 - Longer-term experience: whether the pool feels restful, mode usefulness, personalized examples and credit values. These are product feedback, not passed automated tests.
 

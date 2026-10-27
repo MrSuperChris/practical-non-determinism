@@ -10,7 +10,7 @@ Cast the d20, then start immediately, use a matching TickTick card, veto, or opt
 
 ## Current state
 
-First app on `claude/first-app`, awaiting review and merge. The public GitHub Pages destination is approved in principle; it is **not deployed yet**. The source repository is private. GitHub rejected Pages setup for this private repository on the current plan (HTTP 422, checked 2026-10-25); publishing here requires approval to make the source public. Desktop browser verification passed; physical iPad Safari verification remains a release check.
+Version 0.2.0 is [live on GitHub Pages](https://mrsuperchris.github.io/practical-non-determinism/). Chris approved both PR merges, public source and publication on 2026-10-26. Deployment passed; all 18 published app files matched the released Git blobs. Desktop browser verification passed; physical iPad Safari verification remains an acceptance check.
 
 ## Run on this computer
 
@@ -22,7 +22,7 @@ No dependency installation is needed for the app, its unit tests, or packaging. 
 
 Open `http://127.0.0.1:8896/`. `-Eco` reads the existing local SleeperService TickTick connection in memory and exposes only read-only task endpoints to this app. The browser never receives that server token. Omit `-Eco` to connect in Settings instead. Ctrl+C stops the server. This loopback URL works on this computer, not on the iPad.
 
-Until merged, run the script from the feature worktree at `C:/Users/Chris/claude/_wt/practical-non-determinism-first-app`; the canonical repo remains on master.
+Run the script from `C:/Users/Chris/claude/practical-non-determinism`; the canonical repo is on master.
 
 ## TickTick
 
@@ -54,7 +54,7 @@ The build copies an explicit app-file allowlist to `dist/`. See `docs/VERIFICATI
 
 This repo is unlisted in Eco tiers, so tier1 rules apply: Chris explicitly approves each branch merge. Merging does not publish. After approval, enable GitHub Pages with GitHub Actions as the source and manually run **Publish app** from master. That workflow tests, packages only app files, and deploys. It refuses to deploy another branch.
 
-GitHub Free requires a public repository for Pages; Pro supports private source with a public Pages app. Do not make the repository public without Chris's explicit decision. The expected destination after deployment is `https://mrsuperchris.github.io/practical-non-determinism/`; it is not a live link yet.
+The source repository is public, as approved by Chris. The live destination is [https://mrsuperchris.github.io/practical-non-determinism/](https://mrsuperchris.github.io/practical-non-determinism/). The initial [successful deployment](https://github.com/MrSuperChris/practical-non-determinism/actions/runs/40425918253) published commit `98cc71be352a40724f99b5cda58d86ef30a73ce0`.
 
 For a release that changes app files, increment the cache version in `sw.js`. An update becomes active after the old app tabs close; it does not interrupt an active session. Check the deployed app, then update Eco's registry and Field Guide with verified live status.
 
