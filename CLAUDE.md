@@ -8,7 +8,7 @@ The source PDF is `C:/Users/Chris/Downloads/Practical_Non_Determinism_Modern_Pla
 
 - Illustrated UI follow-up: 16 category emblems and six approach emblems in `src/art.mjs`, original dice in an orbital frame, generated decorative panorama in `assets/possibilities.png`, and additional presentation in `illustrated.css`. See `docs/ARTWORK.md` for prompt/provenance. Package and shell cache include all new assets; version 0.2.0. Chris explicitly approved both PR merges, public source and publication on 2026-10-26; both PRs are merged.
 
-- First app worktree: `C:/Users/Chris/claude/_wt/practical-non-determinism-first-app`, branch `claude/first-app`.
+- Active local review worktree: `C:/Users/Chris/claude/_wt/practical-non-determinism-first-app`, branch `claude/visible-stage-guidance`, PR 2. It includes visible stage guidance and direct-die spinning (0.2.2); neither follow-up is published yet. Port 8897 serves this worktree. Canonical master and public Pages retain the initial release.
 - Eco registration worktree: `C:/Users/Chris/claude/_wt/eco-practical-non-determinism`, branch `claude/practical-non-determinism` in automation.
 - Claude Queue card: `6ade46338f08640fc38da96d`, project `6a5061b78f0822486929571e`. Read current card/column before updating; never complete it or move it to Done.
 - Public source and GitHub Pages are live: https://mrsuperchris.github.io/practical-non-determinism/. Publish app run 40425918253 succeeded on 2026-10-26 (Chicago), deploying 98cc71be352a40724f99b5cda58d86ef30a73ce0. All 18 published files matched Git release blobs over HTTPS; live browser rendering was inspected. Physical iPad acceptance remains; the card stays open in Needs Review.
@@ -19,6 +19,8 @@ The source PDF is `C:/Users/Chris/Downloads/Practical_Non_Determinism_Modern_Pla
 Chris develops and reviews on this Windows computer; the iPad is the intended everyday device (clarified 2026-10-26). Port 8897 is a local development preview, not the published app. The iPad uses GitHub Pages. Local changes require a separate approved merge and Pages deployment to reach that URL. Preview and hosted storage are separate; never clear either to refresh the app.
 
 Guidance is always visible and belongs to the current stage: invitation explains veto/reroll; Try explains Done, continuing and leaving; handled confirms the saved session and the next natural transition. Do not reintroduce earlier-stage rules during Try.
+
+The die itself is the casting control for both d20 and d6: grab, drag around it, and release. The ring stays fixed; the die follows the pointer and briefly coasts. Tap and native Enter/Space activation remain alternatives. Escape, pointer cancellation, losing capture or leaving the page cancels an unfinished gesture. Reduced motion omits the automatic coast. Motion never changes the engine’s unbiased random result.
 
 ## Product invariants
 
