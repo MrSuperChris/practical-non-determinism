@@ -100,3 +100,17 @@ body{background-color:#ded5c4;background-image:radial-gradient(ellipse at 50% 0,
 #app .mode-aside .cast-ritual{margin:16px auto 20px}
 #app .mode-aside .cast-hint strong{font-size:16px}
 @media(prefers-reduced-motion:reduce){#app .spin-die .die-face{will-change:auto}}
+
+/* Try: elapsed time reads as a filling circle as well as a rising pool. */
+#app .timer-area{max-width:400px;margin-inline:auto;padding-top:12px}
+#app .timer-area:before{inset:0 0 58px}
+#app .quiet-timer{width:min(100%,310px);max-width:none}
+#app .quiet-timer #water{transition:transform 1s linear}
+#app #time-arc{transition:stroke-dashoffset 1s linear}
+#app .water-flow{animation:pool-drift 7s ease-in-out infinite alternate}
+#app .marker-halo{transform-box:fill-box;transform-origin:center;animation:time-breath 4s ease-in-out infinite}
+#app .quiet-timer.settled .water-flow,#app .quiet-timer.settled .marker-halo{animation:none}
+#app .timer-caption{min-height:1.5em;margin-top:12px;font-size:21px;color:#493158}
+@keyframes pool-drift{from{transform:translateX(-8px)}to{transform:translateX(8px)}}
+@keyframes time-breath{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:.85;transform:scale(1.15)}}
+@media(prefers-reduced-motion:reduce){#app .water-flow,#app .marker-halo{animation:none}#app #time-arc,#app .quiet-timer #water{transition:none}}

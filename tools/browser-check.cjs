@@ -42,7 +42,8 @@ const output=path.resolve(__dirname,'../browser-results');
   assert.equal(await page.locator('#stage h2').innerText(),'Create');
   await page.getByRole('heading',{name:'While you’re here',exact:false}).waitFor();
   assert.doesNotMatch(await page.locator('.rules').innerText(),/veto|reroll|before you begin/i);
-  assert.equal(await page.locator('[data-act=leave]').count(),1);
+  assert.equal(await page.locator('[data-act=leave]').count(),0);
+  assert.doesNotMatch(await page.locator('#stage').innerText(),/leave this session|choose freely/i);
   assert.match(await page.locator('.rules').innerText(),/Tap Done/);
   assert.match(await page.locator('.task-body').first().innerText(),/<img/);
   assert.equal(await page.locator('.task-detail img').count(),0);
@@ -64,6 +65,8 @@ const output=path.resolve(__dirname,'../browser-results');
   assert.equal(game.history.length,1);assert.equal(game.credits,2);
   await tab2.close();await page.locator('[data-act=next]').click();await page.evaluate(()=>window.dieValue=5);await page.locator('[data-act=roll]').click();await page.locator('.first-result').waitFor();await page.evaluate(()=>window.dieValue=3);await page.locator('[data-act=mode]').click();await page.waitForFunction(()=>document.querySelector('#stage h2')?.textContent.includes('Wander'));await page.locator('[data-act=start]').click();
   await page.locator('.quiet-timer').waitFor();assert.match(await page.locator('#stage h2').innerText(),/Wander/);
+  assert.equal(await page.locator('[data-act=leave]').count(),0);
+  assert.doesNotMatch(await page.locator('#stage').innerText(),/leave this session|choose freely/i);
   for(const viewport of [{width:1024,height:768},{width:768,height:1024}]){
    await page.setViewportSize(viewport);
    await page.waitForFunction(()=>document.querySelector('.invitation').getAnimations().every(a=>a.playState==='finished'));

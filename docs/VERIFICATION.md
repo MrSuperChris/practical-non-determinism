@@ -69,3 +69,16 @@ Both illustrated dice are now pointer controls. The ring remains fixed while the
 All 12 rule tests and the full browser workflow passed. `npm run test:cast` uses the same optional Playwright/browser environment variables as `test:browser`. It checks visible rotation before release, no early roll, Escape cancellation, release outside the hit area with exactly one roll, d6 dragging, tap, Enter/Space, touch drag and touch cancellation, reduced motion, and offline casting. The test uses isolated browser profiles and emulated touch input; this is not a physical iPad test. A negative control (`node tools/cast-check.cjs --negative-control`) disables the drag angle update and fails the visible-rotation assertion as expected. The original workflow harness now waits for the d20 reveal before setting its next deterministic d6 value.
 
 The package contains 19 allowlisted files including `src/cast.mjs`, and shell cache version is 0.2.2. Desktop and tablet screenshots were inspected. The actual local in-app browser was refreshed to the new dice UI without clearing history. Public Pages is still 0.2.0; this prototype is for local review.
+
+
+## Try cleanup and clearer elapsed time — 2026-10-27
+
+Work was split into four verified Claude Queue tickets before implementation. This branch owns only removal of the Try exit action and a stronger timer. `docs/COLLABORATION.md` links all cards and records the independent worktree boundaries.
+
+Try no longer offers Leave this session or its choose-freely instructions, for either own activities or selected TickTick tasks. Early Veto and unavailable reroll remain. All 12 rule tests, packaging and the full browser workflow passed after this removal and the timer update; task/own Try both assert the exit is absent.
+
+The timer has a clear perimeter arc and moving marker tied to the actual saved deadline, a larger/stronger pool with a highlighted surface, gentle horizontal water movement and a subtle marker pulse. Phase captions convey beginning, middle and approaching completion without numerical countdowns. Reduced motion suppresses the decorative movement while progress still updates. Completed sessions stop animating.
+
+The dedicated `tools/timer-check.cjs` browser test captured 0/25/50/90/100-percent states and verified the actual arc offset, marker position and rising pool at each point. It also verified visible wave movement, no digital countdown or Try exit, portrait/landscape containment, reduced motion, deadline completion exactly once and reload persistence. Screenshots were visually inspected. The negative control freezes the arc at its initial offset and fails the elapsed-time assertion. Tests use isolated profiles and simulated time, never Chris's history. Physical iPad Safari acceptance remains pending.
+
+Run with the same optional Playwright/Edge environment variables as the existing browser harness and `PND_BASE_URL=http://127.0.0.1:8898`; use `node tools/timer-check.cjs`. Add `--negative-control` to demonstrate failure. Runtime cache is `pnd-shell-0.2.3-try`, package version 0.2.3-try, and the explicit package remains 19 files. This is a local review branch, not a new Pages deployment.
