@@ -4,11 +4,11 @@ Updated 2026-10-26. This is Chris's new personal decision game, separate from Wh
 
 The source PDF is `C:/Users/Chris/Downloads/Practical_Non_Determinism_Modern_Player_Aid_Updated.pdf`. Its content is reference material, not agent instructions. The game should remain playful, bounded randomness; never evolve it into a compulsory productivity system.
 
-## Current branch ownership — 2026-10-27
+## Combined release — 2026-10-27 (supersedes older handoff below)
 
-This worktree is `C:/Users/Chris/claude/_wt/pnd-try-flow`, branch `claude/pnd-try-flow`, preview port 8898. It is Codex's isolated Try cleanup/timer follow-up from shared base `1a5d5a7` (PR 2). Do not switch or edit the shared baseline worktree on port 8897. Claude can build 3D dice and category previews on separate branches/worktrees from that base. See `docs/COLLABORATION.md` for live queue links and ownership boundaries; read the current card before claiming work.
+Chris explicitly approved the landing fix, PR 2 → PR 3 → PR 4 integration, verification after each merge, and publication. Claude's overnight worker authored the 3D dice; Codex reviewed it, fixed fractional-turn landing discontinuity, and integrated it with the Try work. Package/cache version is 0.2.4. Publication is a separate master-only workflow; inspect its latest successful run and the queue release outcome for the deployed SHA. Canonical master is the combined source. Older worktrees on ports 8897/8898 are snapshots; port 8899 serves the 3D integration worktree. See `docs/COLLABORATION.md` for queue links; category previews remain separate work.
 
-Try has no leave/choose-freely action or guidance. Keep early Veto and the earlier invitation controls as they are; do not introduce a post-start veto implicitly. The timer has a deadline-driven progress arc/marker and pool, with gentle motion and reduced-motion support. No numerical countdown. Version/cache on this branch is 0.2.3-try; not published.
+Try has no leave/choose-freely action or guidance. Keep early Veto and the earlier invitation controls as they are; do not introduce a post-start veto implicitly. The timer has a deadline-driven progress arc/marker and pool, with gentle motion and reduced-motion support. No numerical countdown.
 
 ## Current handoff
 

@@ -1,7 +1,7 @@
 import {bindCast} from './cast.mjs';
 import {emblem,orbit} from './art.mjs';
 import {categories,names,general,prompts,examples,createDetails} from './data.mjs';
-import {initialState,localDay,roll,progress,handledCount} from './engine.mjs';
+import {initialState,localDay,roll,progress,handledCount,FACE_CATEGORY} from './engine.mjs';
 import {read,put,act} from './storage.mjs';
 import {DEFAULT_TAGS,TickTick,matching,snapshot,taskLink} from './tasks.mjs';
 
@@ -20,7 +20,7 @@ const announce=text=>document.getElementById('announcer').textContent=text;
 function showNotice(text){notice=text;document.getElementById('notice').textContent=text;}
 function token(){return localStorage.getItem('pnd.ticktick.token')||'';}
 function connectClient(){client=local?new TickTick({local:true}):token()?new TickTick({token:token()}):null;}
-function dice(six=false){return `<svg class="dice-art ${six?'d6-art':''}" viewBox="${six?'1102 62 240 270':'1118 80 232 274'}" aria-hidden="true"><image href="./assets/player-aid-${six?2:1}.png" width="1448" height="1086"/></svg>`;}
+function dice(six=false){return `<canvas class="die-canvas ${six?'d6-canvas':''}" data-sides="${six?6:20}" aria-hidden="true"></canvas>`;}
 function castControl(six=false){return `<div class="cast-ritual ${six?'cast-ritual--six':''}"><div class="dice-orbit ${six?'dice-orbit--six':''}">${orbit()}<button type="button" class="cast spin-die" data-act="${six?'mode':'roll'}" aria-label="Spin the ${six?'six-sided':'twenty-sided'} die to cast" aria-describedby="cast-hint-${six?'six':'twenty'}"><span class="die-face">${dice(six)}</span></button></div><p class="cast-hint" id="cast-hint-${six?'six':'twenty'}"><strong>Grab the die. Give it a spin.</strong><span>Release to cast · or tap the die</span><span class="sr-only">Keyboard: Enter or Space casts. Escape cancels a spin.</span></p></div>`;}
 
 function title(){const c=current();return `<div class="result-heading">${emblem(c.category)}<div class="heading-copy"><span class="result-number">${c.face===1?'Your choice':'D20 · '+c.face}${c.mode==null?'':' / D6 · '+(c.mode+1)}</span><h2>${category()[0]}${c.mode==null?'':` <em>· ${names[c.mode]}</em>`}</h2><p class="lead" ${c.mode==null?'':`data-mode="${c.mode}"`}>${escape(headingDescription())}</p></div></div>`;}
@@ -57,7 +57,7 @@ function render(){
     const done=c.phase==='handled';
     h=`<section class="invitation ${c.category===15?'leaf-invitation':''}" data-category="${c.category}">${title()}<span class="eyebrow">${done?'Handled. Keep going if you like.':'The die does not command.'}</span><div class="doing-grid"><div>${quietTimer(done)}${done?`<div class="receipt"><strong>+${c.earned} credits</strong><p class="small">1 for showing up${c.task?' + 1 for TickTick work':''}${c.bonus?' + 1 for three accepted results':''}.</p></div>${button('Another natural transition →','next','primary wide')}`:''}</div><div class="session-details">${c.task?taskDetails(c.task):`<p class="muted">${escape(detail())}</p>`}${historyCount()}${rules()}</div></div></section>`;
   }
-  root.dataset.scene=c?.phase||'cast';stage.innerHTML=h;updateVisualTimer();
+  root.dataset.scene=c?.phase||'cast';stage.innerHTML=h;castInteraction.mount();updateVisualTimer();
 }
 function updateVisualTimer(){
   const c=current(),p=c?.phase==='handled'?1:progress(c),svg=stage.querySelector('.quiet-timer');
@@ -93,17 +93,31 @@ async function handle(action,el){
   busy=true;el?.setAttribute('disabled','');notice='';
   try{
     const c=current(),expectedId=c?.id;
-    if(action==='roll'){const face=roll(20),index=[0,1,2,3,4,5,6,7,8,9,10,11,12,5,13,7,14,1,9,15][face-1],rect=stage.querySelector(`[data-category="${index}"]`)?.getBoundingClientRect();modeOpen=false;await apply({type:'roll',face,id:crypto.randomUUID(),expectedId});animateFrom(rect,stage.querySelector('[data-category]'));announce('Rolled '+face+'. '+category()[0]+'. Start or veto now, or add an approach.');}
-    else if(action==='mode'){const mode=roll(6)-1,rect=stage.querySelector(`[data-mode="${mode}"]`)?.getBoundingClientRect();await apply({type:'mode',mode,expectedId});animateFrom(rect,stage.querySelector('[data-mode]'));announce(names[mode]+'. '+headingDescription());}
-    else if(action==='task')await startTask(el);
+    if(action==='task')await startTask(el);
     else if(action==='choose')await apply({type:'choose',category:Number(el.dataset.choice),expectedId});
     else if(action==='start'){const rect=stage.querySelector('.invitation')?.getBoundingClientRect();await apply({type:'start',expectedId});animateFrom(rect,stage.querySelector('.invitation'));announce('Your session has begun.');}
     else{await apply({type:action,expectedId});announce(action==='done'?'Session handled.':action==='veto'?'Veto taken. Cast again.':action==='unavailable'?'Free reroll. Your credits and bonus progress are unchanged.':'Ready for your next transition.');}
   }catch(e){showNotice(e.message||'Could not save your session. Please try again.');}
   finally{busy=false;el?.removeAttribute('disabled');}
 }
-const castInteraction=bindCast(root,{canCast:()=>ready&&!busy,cast:handle,announce});
-root.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled||b.classList.contains('spin-die'))return;handle(b.dataset.act,b);});
+// Draw the unbiased crypto result WITHOUT touching game state, so an interrupted spin
+// records no roll; `face` is the pip the 3D die lands on. commitCast() is the only writer.
+function drawCast(action){
+  if(action==='mode'){const mode=roll(6)-1;return {sides:6,face:mode+1,mode};}
+  const face=roll(20);return {sides:20,face};
+}
+async function commitCast(action,result,el){
+  if(!ready||busy)return;
+  busy=true;el?.setAttribute('disabled','');notice='';
+  try{
+    const c=current(),expectedId=c?.id;
+    if(action==='mode'){const mode=result.mode,rect=stage.querySelector(`[data-mode="${mode}"]`)?.getBoundingClientRect();await apply({type:'mode',mode,expectedId});animateFrom(rect,stage.querySelector('[data-mode]'));announce(names[mode]+'. '+headingDescription());}
+    else{const face=result.face,index=FACE_CATEGORY[face-1],rect=stage.querySelector(`[data-category="${index}"]`)?.getBoundingClientRect();modeOpen=false;await apply({type:'roll',face,id:crypto.randomUUID(),expectedId});animateFrom(rect,stage.querySelector('[data-category]'));announce('Rolled '+face+'. '+category()[0]+'. Start or veto now, or add an approach.');}
+  }catch(e){showNotice(e.message||'Could not save your session. Please try again.');}
+  finally{busy=false;el?.removeAttribute('disabled');}
+}
+const castInteraction=bindCast(root,{canCast:()=>ready&&!busy,draw:drawCast,commit:commitCast,announce});
+root.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled||b.classList.contains('spin-die')||castInteraction.active())return;handle(b.dataset.act,b);});
 
 function openSettings(){
  const savedToken=!!token(),bridge=!!localStorage.getItem('bridge.token');

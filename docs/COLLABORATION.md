@@ -1,5 +1,11 @@
 # Parallel UI work
 
+## Integration update — 2026-10-27
+
+Chris approved merging PRs 2 → 3 → 4 and publishing the combined app. PRs 2 and 3 are merged; PR 4 is rebased onto their master result. Preserve Claude's authorship of the original 3D renderer. Codex adds the animated landing fix and regression, reconciles package/cache version 0.2.4, and runs all checks before and after integration. The remaining category-preview card is independent work; check its live ownership and start from current master for new work. Existing older branches should rebase carefully to retain the 3D cast and Try changes.
+
+The sections below describe the original parallel-work split, not current availability or publication status. Use the queue outcomes and GitHub PR/deployment state for current status. These three PRs have explicit merge/publication approval; later work retains the normal tier1 rule.
+
 Chris requested independent Claude Queue tickets before further development on 2026-10-27. The queue is the source of current ownership/status; read it before starting. All four cards were created and read back before implementation began.
 
 Shared starting point: `1a5d5a7992f756608199f80069b68e859285e9d7`, pushed on `claude/visible-stage-guidance`, PR 2. The baseline worktree `C:/Users/Chris/claude/_wt/practical-non-determinism-first-app` and preview port 8897 stay unchanged. Create a separate worktree/branch from that commit for each owner. Open feature PRs against `claude/visible-stage-guidance` to isolate their changes; merge/publication still needs Chris's explicit branch decision.

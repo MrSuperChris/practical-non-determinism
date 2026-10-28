@@ -10,9 +10,9 @@ Cast the d20, then start immediately, use a matching TickTick card, veto, or opt
 
 ## Current state
 
-Version 0.2.0 is [live on GitHub Pages](https://mrsuperchris.github.io/practical-non-determinism/). Chris approved both PR merges, public source and publication on 2026-10-26. Deployment passed; all 18 published app files matched the released Git blobs. Desktop browser verification passed; physical iPad Safari verification remains an acceptance check.
+The app is hosted on [GitHub Pages](https://mrsuperchris.github.io/practical-non-determinism/). Version 0.2.4 combines visible stage guidance, Claude's spatially rotating d20/d6, and the clearer visual timer. Try offers Done without a leave/choose-freely action. Chris approved integration of PRs 2, 3 and 4 and publication on 2026-10-27.
 
-Local review (0.2.2, PR 2): the illustrated die is now the control—grab, spin and release, or tap it. Both dice support the gesture and keyboard activation. Guidance is visible and follows the current stage. These changes are in the development preview at port 8897; publication remains separate.
+Publishing is a separate manual step: the latest successful **Publish app** run identifies the version actually served. Physical iPad Safari verification remains an acceptance check. Old worktrees on ports 8897/8898 are development snapshots; canonical master is the combined source.
 
 ## Run on this computer
 
