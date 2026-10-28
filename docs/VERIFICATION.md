@@ -1,5 +1,15 @@
 # First-app verification
 
+## Combined 0.2.4 release verification — 2026-10-27
+
+PR 2 merged at `5ef097d`: 12 unit tests, package, browser-check, cast-check, and a baseline-compatible timer check passed against canonical master. The baseline check verified pool movement at 0/25/50/90/100 percent, no digital countdown, deadline completion and reload without duplicate handling; PR 2 predates the arc/marker assertions.
+
+PR 3 merged at `ed70bd0`: 12 unit tests, package, browser-check, cast-check and its full timer-check passed against canonical master. Claude's PR 4 was then rebased onto that result; app and CSS changes combined automatically, while package/cache/offline-test conflicts were reconciled as version 0.2.4 with the 3D module included.
+
+The rebased PR 4 passes 13 unit tests, packaging (20 files), browser-check, cast-check and timer-check together. The new animated-landing regression tests all 26 dice faces with integer and fractional drag turns, checking both the approaching face and final-frame silhouette continuity. It fails on the original fractional-turn code and passes after rounding extra revolutions to whole turns. Claude's 3D implementation and authorship are retained. Physical iPad Safari testing is still outstanding; automated touch is emulation.
+
+After PR 4 merges, repeat all five checks on master before the approved manual Pages publication. Record the deployment SHA/run and hosted verification in the queue release outcome. Never infer publication from a local preview or merge alone.
+
 ## Illustrated UI follow-up — 2026-10-25
 
 The visual pass preserves the game engine, storage and TickTick reader. The full browser workflow passed again with the new artwork, including live read-only TickTick and offline installation. The tablet check now explicitly asserts the two-to-one columns do not overlap after the expansion animation settles. Desktop, tablet portrait and phone screenshots were inspected. The new raster image, vector module and stylesheet are in both the package allowlist and service-worker shell; cache version is 0.2.0. No new credentials or real task details are embedded in the art or the preview image.
