@@ -1,8 +1,8 @@
 {
   "name": "practical-non-determinism",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "private": true,
   "type": "module",
-  "scripts": {"start": "node tools/serve.mjs", "test": "node --test tests/*.test.mjs", "build": "node tools/package.mjs", "test:browser": "node tools/browser-check.cjs", "test:cast": "node tools/cast-check.cjs"},
+  "scripts": {"start": "node tools/serve.mjs", "test": "node --test tests/*.test.mjs", "build": "node tools/package.mjs", "test:browser": "node tools/browser-check.cjs", "test:cast": "node tools/cast-check.cjs", "test:preview": "node tools/preview-check.cjs"},
   "engines": {"node": ">=22"}
 }
