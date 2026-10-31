@@ -1,4 +1,5 @@
 import {bindCast} from './cast.mjs';
+import {bindPreviews} from './preview.mjs';
 import {emblem,orbit} from './art.mjs';
 import {categories,names,general,prompts,examples,createDetails} from './data.mjs';
 import {initialState,localDay,roll,progress,handledCount,FACE_CATEGORY} from './engine.mjs';
@@ -40,6 +41,7 @@ function quietTimer(done=false){return `<div class="timer-area"><svg class="quie
 function taskDetails(task){return `<section class="task-detail"><span class="eyebrow">Your TickTick card</span><h3>${escape(task.title)}</h3>${task.content?`<p class="task-body">${escape(task.content)}</p>`:''}${task.desc&&task.desc!==task.content?`<p class="task-body">${escape(task.desc)}</p>`:''}${task.items?.length?`<ul class="checklist">${task.items.map(x=>`<li class="${x.status===1?'checked':''}"><span aria-label="${x.status===1?'Complete':'Open'}">${x.status===1?'☑':'☐'}</span><span>${escape(x.title)}</span></li>`).join('')}</ul>`:''}<a href="${taskLink(task)}" target="_blank" rel="noopener noreferrer">Open in TickTick ↗</a><p class="small muted">This session records time spent. The TickTick card stays open until you complete it there.</p></section>`;}
 function render(){
   castInteraction.cancel();
+  previews.close();
   const c=current(),used=state.vetoDate===localDay(Date.now(),prefs.zone);
   document.getElementById('wallet').innerHTML=`<strong>${state.credits} credits</strong><span>${used?'Daily veto used':'Daily veto available'}</span><br><span>${state.run}/3 toward bonus</span>`;
   const step=!c?0:c.phase==='doing'||c.phase==='handled'?3:c.mode==null?1:2;
@@ -47,7 +49,7 @@ function render(){
   document.getElementById('notice').textContent=notice;
   document.getElementById('connection').textContent=loading?'Refreshing TickTick…':cache.updated?`${navigator.onLine?'TickTick':'Saved cards · offline'} · updated ${new Date(cache.updated).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:prefs.zone})}`:'History stays on this device';
   let h='';
-  if(!c)h=`<div class="home-grid"><section class="ritual-intro"><div class="ornament">The basic ritual</div>${castControl()}<h2>Let the universe<br>choose a lane.</h2><p class="muted">At a natural transition, cast a die.<br>You choose the actual activity.</p><p class="small muted">Keep House, Create, Organize, and Move each occupy two faces of the die.</p></section><section><div class="ornament">The twenty faces</div><div class="category-grid">${categories.map((x,i)=>`<div class="tile ${x[3]==='direct'?'special':''} ${i===0?'manual':''}" data-category="${i}"><span class="face">${x[1].join(' / ')}</span>${emblem(i)}<span class="tile-name">${x[0]}</span></div>`).join('')}</div></section></div>`;
+  if(!c)h=`<div class="home-grid"><section class="ritual-intro"><div class="ornament">The basic ritual</div>${castControl()}<h2>Let the universe<br>choose a lane.</h2><p class="muted">At a natural transition, cast a die.<br>You choose the actual activity.</p><p class="small muted">Keep House, Create, Organize, and Move each occupy two faces of the die.</p></section><section><div class="ornament">The twenty faces</div><div class="category-grid">${categories.map((x,i)=>`<div class="tile ${x[3]==='direct'?'special':''} ${i===0?'manual':''}" data-category="${i}" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="category-preview" aria-label="${escape(x[0])} — show details"><span class="face">${x[1].join(' / ')}</span>${emblem(i)}<span class="tile-name">${x[0]}</span></div>`).join('')}</div></section></div>`;
   else if(c.phase==='invitation'&&c.face===1&&!c.chosen)h=`<section class="invitation" data-category="0">${title()}<div class="choose-grid">${categories.slice(1).map((x,i)=>button(emblem(i+1)+'<span>'+x[0]+'</span>','choose','',`data-choice="${i+1}"`)).join('')}</div><div class="actions">${veto()}</div>${rules()}</section>`;
   else if(c.phase==='invitation'&&c.mode==null&&!c.chosen&&category()[3]!=='direct'){
     const showModes=category()[3]==='usual'||modeOpen;
@@ -117,6 +119,8 @@ async function commitCast(action,result,el){
   finally{busy=false;el?.removeAttribute('disabled');}
 }
 const castInteraction=bindCast(root,{canCast:()=>ready&&!busy,draw:drawCast,commit:commitCast,announce});
+// Category previews on the Cast screen read task data only; they never cast or mutate state.
+const previews=bindPreviews(root,()=>({tasks:cache.tasks,tags:prefs.tags,zone:prefs.zone,loading,connected:!!client,cacheUpdated:cache.updated,online:navigator.onLine}));
 root.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled||b.classList.contains('spin-die')||castInteraction.active())return;handle(b.dataset.act,b);});
 
 function openSettings(){
