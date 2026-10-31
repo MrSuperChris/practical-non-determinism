@@ -117,6 +117,10 @@ const PALETTES = {
   6: { face: [233, 226, 206], edge: '#2d2341', ink: '#1a3350', inkBack: '#1a3350' }, // cream / navy
 };
 const LIGHT = vUnit([-0.35, -0.65, 0.75]);
+// Numbers are laid out at a fixed text size, then scaled into world units per face.
+const TEXT_PX = 100;
+const TEXT_FONT = `600 ${TEXT_PX}px Georgia, "Times New Roman", serif`;
+const FILL = { 20: 0.88, 6: 0.6 }; // share of the largest centred fit the number's ink box takes
 
 function shade(rgb, k) {
   const c = rgb.map(v => Math.round(Math.min(255, Math.max(0, v * k))));
@@ -133,6 +137,54 @@ export function createDie(canvas, { sides = 20 } = {}) {
   // A gentle default tilt shows three to four faces at rest.
   let q = qNorm(qMul(qAxisAngle([1, 0, 0], -0.42), qAxisAngle([0, 1, 0], 0.62)));
   let raf = 0, anim = null;
+  // Each face's text axes are fixed on the die. "Up" is whichever in-plane direction
+  // faceQuaternion() turns to screen-up, so a landed number reads upright.
+  for (const f of faceData) {
+    f.up = vUnit(qRotate(qConj(faceQuaternion(f.number)), [0, 1, 0]));
+    f.right = vCross(f.up, f.normal);
+    f.flat = f.idx.map(i => { const d = vSub(geom.verts[i], f.centroid); return [vDot(d, f.right), vDot(d, f.up)]; });
+  }
+  const inks = new Map();
+
+  // The number's ink box at TEXT_PX (alphabetic baseline), with room for a 6/9 underline.
+  function inkBox(number) {
+    if (inks.has(number)) return inks.get(number);
+    const text = String(number);
+    ctx.font = TEXT_FONT;
+    const m = ctx.measureText ? ctx.measureText(text) : null;
+    const measured = m && Number.isFinite(m.actualBoundingBoxAscent);
+    const left = measured ? m.actualBoundingBoxLeft : 0;
+    const right = measured ? m.actualBoundingBoxRight : TEXT_PX * 0.6 * text.length;
+    const ascent = measured ? m.actualBoundingBoxAscent : TEXT_PX * 0.7;
+    const glyphDescent = measured ? m.actualBoundingBoxDescent : 0;
+    const bar = sides === 20 && (number === 6 || number === 9);
+    const ink = { left, right, ascent, glyphDescent, glyphW: right + left, bar,
+      descent: bar ? glyphDescent + TEXT_PX * 0.14 : glyphDescent };
+    inks.set(number, ink);
+    return ink;
+  }
+  // One text scale per die, as on a real die: the largest that keeps every number's
+  // centred ink box inside its (convex) face, times FILL.
+  let textScale = 0;
+  function scale() {
+    if (!textScale) textScale = Math.min(...faceData.map(fitFor)) * (FILL[sides] || FILL[20]);
+    return textScale;
+  }
+  function fitFor(f) {
+    const ink = inkBox(f.number);
+    const hw = (ink.right + ink.left) / 2, hh = (ink.ascent + ink.descent) / 2;
+    const corners = [[-hw, -hh], [hw, -hh], [hw, hh], [-hw, hh]];
+    let k = Infinity;
+    f.flat.forEach((a, i) => {
+      const b = f.flat[(i + 1) % f.flat.length];
+      let m = [a[1] - b[1], b[0] - a[0]]; // edge normal
+      const dist = -(a[0] * m[0] + a[1] * m[1]);
+      if (dist < 0) { m = [-m[0], -m[1]]; }
+      const len = Math.hypot(m[0], m[1]), inward = [m[0] / len, m[1] / len], gap = Math.abs(dist) / len;
+      for (const c of corners) { const t = c[0] * inward[0] + c[1] * inward[1]; if (t < 0) k = Math.min(k, gap / -t); }
+    });
+    return k;
+  }
 
   function size() {
     const rect = canvas.getBoundingClientRect();
@@ -178,14 +230,32 @@ export function createDie(canvas, { sides = 20 } = {}) {
       ctx.lineJoin = 'round';
       ctx.stroke();
       if (f.normal[2] > 0.18) {
-        const [px, py] = project(vScale(f.centroid, 1.001));
+        // Print the number in the face's plane: the affine map that best carries the face's
+        // flat right/up coordinates onto its projected corners (exact for a triangle),
+        // clipped to the face just filled.
+        const ink = inkBox(f.number);
+        const k = scale(); // world units per text pixel
+        let mx = 0, my = 0, suu = 0, suv = 0, svv = 0, sux = 0, svx = 0, suy = 0, svy = 0;
+        pts.forEach(([x, y]) => { mx += x / pts.length; my += y / pts.length; });
+        f.flat.forEach(([u, v], i) => {
+          const x = pts[i][0] - mx, y = pts[i][1] - my; // flat coordinates are centred already
+          suu += u * u; suv += u * v; svv += v * v; sux += u * x; svx += v * x; suy += u * y; svy += v * y;
+        });
+        const det = suu * svv - suv * suv;
+        const ax = (sux * svv - svx * suv) / det, ay = (suy * svv - svy * suv) / det; // screen per unit right
+        const ux = (svx * suu - sux * suv) / det, uy = (svy * suu - suy * suv) / det; // screen per unit up
         ctx.save();
+        ctx.clip();
+        ctx.transform(ax * k, ay * k, -ux * k, -uy * k, mx, my);
         ctx.fillStyle = f.normal[2] > 0.45 ? palette.ink : palette.inkBack;
-        ctx.font = `600 ${Math.round(R * (sides === 6 ? 0.42 : 0.26))}px Georgia, "Times New Roman", serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+        ctx.font = TEXT_FONT;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
         ctx.globalAlpha = Math.min(1, (f.normal[2] - 0.12) * 2.6);
-        ctx.fillText(String(f.number), px, py);
+        const x0 = -(ink.right - ink.left) / 2, y0 = (ink.ascent - ink.descent) / 2;
+        ctx.fillText(String(f.number), x0, y0);
+        // 6 and 9 turn with their faces now, so mark them the way real dice do.
+        if (ink.bar) ctx.fillRect(-ink.glyphW * 0.35, y0 + ink.glyphDescent + TEXT_PX * 0.07, ink.glyphW * 0.7, TEXT_PX * 0.07);
         ctx.restore();
       }
     }

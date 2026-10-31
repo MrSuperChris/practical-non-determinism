@@ -108,7 +108,7 @@ const output=path.resolve(__dirname,'../browser-results');
   const offline=await setup({serviceWorkers:'allow'});const op=offline.page;
   await op.evaluate(async()=>{await navigator.serviceWorker.ready;});await op.reload();
   await op.waitForFunction(()=>!!navigator.serviceWorker.controller);
-  const cached=await op.evaluate(async()=>{const cache=await caches.open('pnd-shell-0.2.5');return (await cache.keys()).map(x=>x.url);});
+  const cached=await op.evaluate(async()=>{const cache=await caches.open('pnd-shell-0.2.6');return (await cache.keys()).map(x=>x.url);});
   assert(cached.some(x=>x.endsWith('/src/cast.mjs')),'cast module cached offline');
   assert(cached.some(x=>x.endsWith('/src/dice3d.mjs')),'3D renderer cached offline');
   assert(cached.some(x=>x.endsWith('/src/preview.mjs')),'preview module cached offline');
